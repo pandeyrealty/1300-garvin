@@ -109,9 +109,10 @@ h3{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:-.01
 .tile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
 .tile:hover img{transform:scale(1.04)}
 .tile:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.tile span{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 8px;font-size:13px;font-weight:500;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.55));text-align:left;opacity:0;transition:opacity .25s}
-.tile:hover span,.tile:focus-visible span{opacity:1}
-@media (hover:none){.tile span{opacity:1}}
+.tile span{position:absolute;left:8px;bottom:8px;right:8px;display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;pointer-events:none}
+.tile span b,.tile span i{font-style:normal;background:rgba(12,18,24,.72);color:#fff;border-radius:6px;padding:3px 8px;line-height:1.3;max-width:100%}
+.tile span i{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;opacity:.92}
+.tile span b{font-size:13px;font-weight:600}
 @media (max-width:900px){.gallery{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:600px){.gallery{grid-template-columns:repeat(2,1fr)}}
 
@@ -168,7 +169,7 @@ footer .wrap{padding-block:28px 40px;display:flex;flex-wrap:wrap;gap:8px 24px;ju
 .lb .prev{left:8px}.lb .next{right:8px}
 @media (max-width:600px){.lb-stage{padding:0 6px}.lb .arr{top:auto;bottom:-54px;transform:none}}
 .lb-num{font-variant-numeric:tabular-nums;opacity:.75}
-@media (prefers-reduced-motion:reduce){.tile img,.tile span{transition:none}}
+@media (prefers-reduced-motion:reduce){.tile img{transition:none}}
 </style>
 </head>
 <body>
@@ -244,7 +245,7 @@ footer .wrap{padding-block:28px 40px;display:flex;flex-wrap:wrap;gap:8px 24px;ju
           <li>Ceiling fans and large closets</li>
           <li>Laundry room in the unit</li>
         </ul>
-        <button class="see" data-filter="Upstairs">See 15 upstairs photos →</button>
+        <button class="see" data-filter="Upper Unit">See 15 upper unit photos →</button>
       </div>
     </article>
     <article class="unit">
@@ -259,7 +260,7 @@ footer .wrap{padding-block:28px 40px;display:flex;flex-wrap:wrap;gap:8px 24px;ju
           <li>Second bath with double sinks</li>
           <li>Separate laundry room</li>
         </ul>
-        <button class="see" data-filter="Downstairs">See 15 downstairs photos →</button>
+        <button class="see" data-filter="Lower Unit">See 15 lower unit photos →</button>
       </div>
     </article>
   </div>
@@ -355,13 +356,9 @@ document.querySelectorAll(".copy").forEach(b=>b.onclick=()=>{
   const sel=()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected"};
   try{navigator.clipboard.writeText(t).then(done,sel)}catch(e){sel()}
 });
-const RAW=[
-["Exterior","Front of the property"],["Exterior","Street view"],["Exterior","Gated front with parking"],["Exterior","Unit entrances and garage"],["Exterior","Corner view"],["Exterior","Rear elevation"],["Exterior","Side yard and balcony"],
-["Downstairs","Living area open to kitchen"],["Downstairs","Kitchen with stainless appliances"],["Downstairs","Main living space"],["Downstairs","Hallway"],["Downstairs","Bedroom"],["Downstairs","Bedroom with closet"],["Downstairs","Bedroom"],["Downstairs","Bedroom"],["Downstairs","Bedroom"],["Downstairs","Room with outside access"],["Downstairs","Updated bathroom"],["Downstairs","Tiled tub and shower"],["Downstairs","Double-sink bathroom"],["Downstairs","Bathroom"],["Downstairs","Laundry room"],
-["Upstairs","Private entry stairs"],["Upstairs","Living room"],["Upstairs","Living room"],["Upstairs","Living area toward kitchen"],["Upstairs","Kitchen with granite counters"],["Upstairs","Hallway"],["Upstairs","Bedroom with balcony door"],["Upstairs","Bedroom with closet"],["Upstairs","Bedroom with balcony door"],["Upstairs","Bedroom with closet"],["Upstairs","Bedroom"],["Upstairs","Bedroom"],["Upstairs","Bathroom"],["Upstairs","Bathroom"],["Upstairs","Laundry room"],
-["Yard","Back yard"],["Yard","Side yard"]];
-const ALL=RAW.map((p,i)=>({sec:p[0],cap:p[1],src:`${String(i+1).padStart(2,"0")}.jpg`}));
-const CATS=["All","Exterior","Downstairs","Upstairs","Yard"];
+const RAW=[["Exterior","Front of the property",1],["Exterior","Street view",2],["Exterior","Gated parking",3],["Exterior","Unit entrances & garage",4],["Exterior","Corner lot view",5],["Exterior","Rear of the building",6],["Exterior","Side of the building & balcony",7],["Upper Unit","Private entry staircase",23],["Upper Unit","Living room",24],["Upper Unit","Living room · office nook",25],["Upper Unit","Living room toward kitchen",26],["Upper Unit","Kitchen",27],["Upper Unit","Hallway",28],["Upper Unit","Primary bedroom",33],["Upper Unit","Primary bedroom · closet & bath",34],["Upper Unit","Bathroom",35],["Upper Unit","Bedroom 2 · balcony door",31],["Upper Unit","Bedroom 2 · closet",32],["Upper Unit","Bedroom 3 · balcony door",29],["Upper Unit","Bedroom 3 · closet",30],["Upper Unit","Bathroom",36],["Upper Unit","Laundry room",37],["Lower Unit","Living room",10],["Lower Unit","Living room toward kitchen",8],["Lower Unit","Kitchen",9],["Lower Unit","Hallway",11],["Lower Unit","Primary bedroom · outside access",17],["Lower Unit","Bedroom",12],["Lower Unit","Bedroom closet",13],["Lower Unit","Bedroom",14],["Lower Unit","Bonus room with walk-in closet",15],["Lower Unit","Bonus room",16],["Lower Unit","Updated bathroom",18],["Lower Unit","Updated bathroom · tiled tub",19],["Lower Unit","Second bathroom · double sinks",20],["Lower Unit","Second bathroom",21],["Lower Unit","Laundry room",22],["Yard","Back yard",38],["Yard","Side yard",39]];
+const ALL=RAW.map(p=>({sec:p[0],cap:p[1],src:`${String(p[2]).padStart(2,"0")}.jpg`}));
+const CATS=["All","Exterior","Upper Unit","Lower Unit","Yard"];
 let view=ALL,cur=0,lastFocus=null;
 const gal=document.getElementById("gallery"),fil=document.getElementById("filters");
 
@@ -369,8 +366,8 @@ function render(cat){
   view=cat==="All"?ALL:ALL.filter(p=>p.sec===cat);
   gal.innerHTML="";
   view.forEach((p,k)=>{
-    const b=document.createElement("button");b.className="tile";b.setAttribute("aria-label",p.cap+", open photo");
-    b.innerHTML=`<img src="${p.src}" alt="${p.cap}" loading="lazy"><span>${p.cap}</span>`;
+    const b=document.createElement("button");b.className="tile";b.setAttribute("aria-label",p.sec+", "+p.cap+", open photo");
+    b.innerHTML=`<img src="${p.src}" alt="${p.cap}" loading="lazy"><span><i>${p.sec}</i><b>${p.cap}</b></span>`;
     b.onclick=()=>openLB(k);gal.appendChild(b);
   });
   fil.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.cat===cat));
