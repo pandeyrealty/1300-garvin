@@ -8,7 +8,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="1300 Garvin Ave, Richmond CA: Duplex for Sale">
 <meta property="og:description" content="Corner-lot duplex in Belding Woods. 2 units, separate entrances, garage, gated parking. Pandey Realty.">
-<meta property="og:image" content="/web/01.jpg">
+<meta property="og:image" content="/01.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232c5a7a'/%3E%3Cpath d='M6 16 16 7l10 9v9H6z' fill='%23fff'/%3E%3C/svg%3E">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
@@ -189,7 +189,7 @@ footer .wrap{padding-block:28px 40px;display:flex;flex-wrap:wrap;gap:8px 24px;ju
 </header>
 
 <div class="hero" id="top">
-  <img src="web/02.jpg" alt="1300 Garvin Avenue from the street">
+  <img src="02.jpg" alt="1300 Garvin Avenue from the street">
   <div class="hero-text"><div class="wrap">
     <p class="kicker">Two-unit property · Richmond, CA</p>
     <h1>1300 Garvin Avenue</h1>
@@ -225,7 +225,7 @@ footer .wrap{padding-block:28px 40px;display:flex;flex-wrap:wrap;gap:8px 24px;ju
       <li>Fenced yard</li>
     </ul>
   </div>
-  <figure><img src="web/04.jpg" alt="Unit entrances and garage"></figure>
+  <figure><img src="04.jpg" alt="Unit entrances and garage"></figure>
 </div></section>
 
 <section id="units"><div class="wrap">
@@ -233,7 +233,7 @@ footer .wrap{padding-block:28px 40px;display:flex;flex-wrap:wrap;gap:8px 24px;ju
   <h2>Upstairs and downstairs</h2>
   <div class="units">
     <article class="unit">
-      <div class="unit-img"><img src="web/24.jpg" alt="Upstairs unit living room" loading="lazy"></div>
+      <div class="unit-img"><img src="24.jpg" alt="Upstairs unit living room" loading="lazy"></div>
       <div class="unit-body">
         <span class="unit-tag">Unit B · Upstairs</span>
         <h3>3 bedrooms · 2 baths</h3>
@@ -248,7 +248,7 @@ footer .wrap{padding-block:28px 40px;display:flex;flex-wrap:wrap;gap:8px 24px;ju
       </div>
     </article>
     <article class="unit">
-      <div class="unit-img"><img src="web/09.jpg" alt="Downstairs unit kitchen" loading="lazy"></div>
+      <div class="unit-img"><img src="09.jpg" alt="Downstairs unit kitchen" loading="lazy"></div>
       <div class="unit-body">
         <span class="unit-tag">Unit A · Downstairs</span>
         <h3>2 bedrooms + bonus room · 2 baths</h3>
@@ -301,7 +301,7 @@ footer .wrap{padding-block:28px 40px;display:flex;flex-wrap:wrap;gap:8px 24px;ju
       <p>In Richmond, Contra Costa County, on the east shore of San Francisco Bay.</p>
       <a class="btn" href="https://www.google.com/maps/search/?api=1&query=1300+Garvin+Ave+Richmond+CA+94801" target="_blank" rel="noopener">Open in Google Maps</a>
     </div>
-    <figure><img src="web/05.jpg" alt="Corner view of the property" loading="lazy"></figure>
+    <figure><img src="05.jpg" alt="Corner view of the property" loading="lazy"></figure>
   </div>
 </div></section>
 
@@ -360,7 +360,7 @@ const RAW=[
 ["Downstairs","Living area open to kitchen"],["Downstairs","Kitchen with stainless appliances"],["Downstairs","Main living space"],["Downstairs","Hallway"],["Downstairs","Bedroom"],["Downstairs","Bedroom with closet"],["Downstairs","Bedroom"],["Downstairs","Bedroom"],["Downstairs","Bedroom"],["Downstairs","Room with outside access"],["Downstairs","Updated bathroom"],["Downstairs","Tiled tub and shower"],["Downstairs","Double-sink bathroom"],["Downstairs","Bathroom"],["Downstairs","Laundry room"],
 ["Upstairs","Private entry stairs"],["Upstairs","Living room"],["Upstairs","Living room"],["Upstairs","Living area toward kitchen"],["Upstairs","Kitchen with granite counters"],["Upstairs","Hallway"],["Upstairs","Bedroom with balcony door"],["Upstairs","Bedroom with closet"],["Upstairs","Bedroom with balcony door"],["Upstairs","Bedroom with closet"],["Upstairs","Bedroom"],["Upstairs","Bedroom"],["Upstairs","Bathroom"],["Upstairs","Bathroom"],["Upstairs","Laundry room"],
 ["Yard","Back yard"],["Yard","Side yard"]];
-const ALL=RAW.map((p,i)=>({sec:p[0],cap:p[1],src:`web/${String(i+1).padStart(2,"0")}.jpg`}));
+const ALL=RAW.map((p,i)=>({sec:p[0],cap:p[1],src:`${String(i+1).padStart(2,"0")}.jpg`}));
 const CATS=["All","Exterior","Downstairs","Upstairs","Yard"];
 let view=ALL,cur=0,lastFocus=null;
 const gal=document.getElementById("gallery"),fil=document.getElementById("filters");
