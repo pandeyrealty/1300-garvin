@@ -23,8 +23,8 @@ module.exports = async (req, res) => {
   }
   body = body || {};
 
-  // Spam checks: hidden "website" field must be empty, and a human takes more than ~3 seconds to fill the form.
-  if (clean(body.website, 200) !== "" || Number(body.elapsed) < 3000) {
+  // Spam checks: hidden "website" field must be empty, and a human takes more than a second to fill the form.
+  if (clean(body.website, 200) !== "" || Number(body.elapsed) < 1000) {
     return res.status(200).json({ ok: true }); // pretend success so bots don't retry
   }
 
