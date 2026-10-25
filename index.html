@@ -53,7 +53,9 @@ section{padding-block:80px 0}
 .nav.solid{background:var(--surface);color:var(--fg);box-shadow:0 1px 0 var(--line)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
 .brand{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:-.01em;text-decoration:none;color:inherit;white-space:nowrap}
-.brand small{font-family:var(--body);font-weight:500;font-size:13px;opacity:.8;margin-left:8px;letter-spacing:0}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{height:40px;width:auto;display:block}
+.brand small{font-family:var(--body);font-weight:500;font-size:13px;opacity:.8;margin-left:2px;letter-spacing:0}
 .links{display:flex;align-items:center;gap:2px}
 .links a{color:inherit;text-decoration:none;font-size:15px;font-weight:500;padding:8px 12px;border-radius:8px}
 .links a:hover{background:rgba(127,127,127,.14)}
@@ -74,6 +76,10 @@ section{padding-block:80px 0}
 
 /* ---------- Hero slideshow ---------- */
 .hero{position:relative;height:100svh;min-height:560px;max-height:980px;overflow:hidden;background:#1d2b35;color:#fff}
+.presenter{display:inline-flex;align-items:center;gap:12px;margin-top:22px;background:rgba(8,14,20,.42);backdrop-filter:blur(6px);border-radius:999px;padding:6px 18px 6px 6px}
+.presenter img{width:44px;height:44px;border-radius:999px;object-fit:cover;border:2px solid #fff}
+.presenter span{font-size:14px;line-height:1.25}
+.presenter b{display:block;font-size:15px}
 .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease}
 .slide.on{opacity:1}
 .slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);transition:transform 7s ease-out}
@@ -188,6 +194,16 @@ textarea{min-height:110px;resize:vertical}
 .calc-note{font-size:13px;color:var(--muted);margin:0}
 @media (max-width:860px){.calc{grid-template-columns:1fr}.calc-in,.calc-out{padding:22px}}
 
+/* ---------- Video ---------- */
+.video{position:relative;aspect-ratio:16/9;max-width:100%;border-radius:12px;overflow:hidden;background:#111a21;color:#fff}
+.video iframe,.video video{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45}
+.video .soon{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:20px}
+.video .play{width:76px;height:76px;border-radius:999px;border:2px solid rgba(255,255,255,.8);display:grid;place-items:center;background:rgba(255,255,255,.12);backdrop-filter:blur(6px)}
+.video .soon b{font-family:var(--display);font-size:clamp(22px,3vw,30px)}
+.video .soon span{opacity:.85;max-width:40ch}
+@media (max-width:600px){.video{aspect-ratio:4/5}}
+
 /* ---------- Location ---------- */
 .loc{display:grid;grid-template-columns:.9fr 1.1fr;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .loc-text{padding:34px;display:flex;flex-direction:column;gap:14px;justify-content:center}
@@ -213,7 +229,9 @@ textarea{min-height:110px;resize:vertical}
 .fine{font-size:13px;color:var(--muted);margin:0}
 .agent{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px;display:grid;gap:14px}
 .agent .who{display:flex;gap:14px;align-items:center}
-.avatar{width:58px;height:58px;border-radius:999px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:22px;flex:none}
+.avatar{width:96px;height:96px;border-radius:999px;object-fit:cover;flex:none;border:3px solid var(--surface);box-shadow:0 0 0 2px #d4a63a}
+.agent-logo{display:block;width:150px;height:auto;margin:0 auto 4px}
+.agent .who{flex-direction:column;text-align:center;gap:10px}
 .agent .name{font-family:var(--display);font-weight:700;font-size:22px;line-height:1.15;margin:0}
 .agent .role{color:var(--muted);margin:2px 0 0;font-size:15px}
 .agent .lic{font-size:13px;color:var(--muted);display:grid;gap:2px;font-variant-numeric:tabular-nums}
@@ -225,7 +243,8 @@ textarea{min-height:110px;resize:vertical}
 
 footer{margin-top:90px;border-top:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:14px}
 footer .wrap{padding-block:30px 40px;display:grid;gap:10px}
-footer .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;color:var(--fg);font-weight:600}
+footer .logo{height:56px;width:auto;display:block}
+footer .top{align-items:center;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;color:var(--fg);font-weight:600}
 
 /* ---------- Mobile CTA bar ---------- */
 .cta-bar{display:none}
@@ -258,10 +277,11 @@ footer .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24
 
 <header class="nav" id="nav">
   <div class="wrap">
-    <a class="brand" href="#top">1300 Garvin<small>Richmond, CA</small></a>
+    <a class="brand" href="#top"><img src="logo.png" alt="Pandey Realty" width="68" height="40"><span>1300 Garvin<small>Richmond, CA</small></span></a>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="links">Menu</button>
     <nav class="links" id="links" aria-label="Site">
       <a href="#about">About</a>
+      <a href="#video">Video</a>
       <a href="#units">Units</a>
       <a href="#photos">Photos</a>
       <a href="#calculator">Payment</a>
@@ -284,6 +304,7 @@ footer .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24
       <a class="btn light" href="#contact">Schedule a showing</a>
       <a class="btn glass" href="#photos">View all 39 photos</a>
     </div>
+    <a class="presenter" href="#contact" style="color:#fff;text-decoration:none"><img src="nayan.jpg" alt=""><span>Presented by<b>Nayan Pandey · Pandey Realty</b></span></a>
   </div></div>
   <div class="hero-ctl">
     <div class="dots" id="dots"></div>
@@ -329,6 +350,15 @@ footer .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24
       <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Lower-unit bonus room with outside door</li>
     </ul>
   </aside>
+</div></section>
+
+<section id="video" class="reveal"><div class="wrap">
+  <p class="eyebrow">Video tour</p>
+  <h2>Walk through with Nayan</h2>
+  <div class="video" id="videoBox">
+    <img class="poster" src="24.jpg" alt="">
+    <div class="soon"><div class="play" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div><b>Video tour coming soon</b><span>Want a live walkthrough now? <a href="#contact" style="color:#fff">Schedule a showing</a>.</span></div>
+  </div>
 </div></section>
 
 <section id="units" class="reveal"><div class="wrap">
@@ -461,8 +491,9 @@ footer .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24
       <p class="fine">Your information goes only to Nayan Pandey at Pandey Realty and is used to respond to your request.</p>
     </form>
     <aside class="agent">
+      <img class="agent-logo" src="logo.png" alt="Pandey Realty" loading="lazy">
       <div class="who">
-        <div class="avatar" aria-hidden="true">NP</div>
+        <img class="avatar" src="nayan.jpg" alt="Nayan Pandey" loading="lazy">
         <div><p class="name">Nayan Pandey</p><p class="role">Broker · Mortgage Loan Officer<br>Pandey Realty</p></div>
       </div>
       <div class="line"><div><small>Call or text</small><a href="tel:+14694075853">(469) 407-5853</a></div></div>
@@ -480,7 +511,7 @@ footer .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24
 </main>
 
 <footer><div class="wrap">
-  <div class="top"><span>1300 Garvin Ave, Richmond, CA 94801</span><span>Pandey Realty</span></div>
+  <div class="top"><img class="logo" src="logo.png" alt="Pandey Realty" loading="lazy"><span>1300 Garvin Ave, Richmond, CA 94801</span></div>
   <span>Listed by Nayan Pandey, Broker · DRE #02174678 · NMLS #2436273 · Pandey Realty Corp. DRE #02446715 · NMLS #2877353</span>
   <span>Square footage, lot size, and year built are from public records and have not been independently measured. Information deemed reliable but not guaranteed; buyers should verify all information.</span>
 </div></footer>
@@ -512,6 +543,15 @@ const RAW=[
 const ALL=RAW.map(p=>({sec:p[0],cap:p[1],src:img(p[2]),n:p[2]}));
 const $=id=>document.getElementById(id);
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Video tour: paste a YouTube, Vimeo, or .mp4 link here when it's ready. Leave empty to show "coming soon". */
+const VIDEO_URL="";
+(function(){if(!VIDEO_URL)return;const box=$("videoBox");let m;
+  if((m=VIDEO_URL.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]{11})/)))box.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${m[1]}?rel=0" title="Video tour of 1300 Garvin Ave" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+  else if((m=VIDEO_URL.match(/vimeo\.com\/(\d+)/)))box.innerHTML=`<iframe src="https://player.vimeo.com/video/${m[1]}" title="Video tour of 1300 Garvin Ave" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+  else if(/\.(mp4|webm|mov)(\?|$)/i.test(VIDEO_URL))box.innerHTML=`<video src="${VIDEO_URL}" controls playsinline preload="metadata" poster="24.jpg"></video>`;
+  else box.querySelector(".soon span").innerHTML=`<a href="${VIDEO_URL}" target="_blank" rel="noopener" style="color:#fff">Watch the video tour</a>`;
+})();
 
 /* Nav */
 const nav=$("nav"),cta=$("ctaBar"),links=$("links"),menuBtn=$("menuBtn");
