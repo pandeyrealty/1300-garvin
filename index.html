@@ -283,7 +283,8 @@ footer .top{align-items:center;display:flex;flex-wrap:wrap;justify-content:space
 
 .reveal{transition:opacity .7s ease,transform .7s ease}
 .reveal.pre{opacity:0;transform:translateY(18px)}
-@media (min-width:901px) and (max-width:1240px){.links a:not(.btn){padding:8px 7px;font-size:14px}.links .btn{margin-left:4px;padding:8px 14px;font-size:14px}.brand small{display:none}}
+@media (min-width:901px) and (max-width:1240px){.links a:not(.btn){padding:8px 7px;font-size:14px}.links .btn{margin-left:4px;padding:8px 14px;font-size:14px}}
+@media (min-width:901px) and (max-width:1400px){.brand small{display:none}}
 
 /* Virtual staging: Original / AI staged carousel on each staged photo (CA AB 723 labeling) */
 .tile .ph{position:relative}
@@ -299,6 +300,17 @@ footer .top{align-items:center;display:flex;flex-wrap:wrap;justify-content:space
 .lb-badge{position:absolute;left:50%;top:10px;transform:translateX(-50%);max-width:calc(100% - 24px);background:rgba(15,29,51,.92);color:#fff;font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;pointer-events:none;text-align:center}
 .stg-note{margin:0 0 18px;padding:12px 16px;border-radius:10px;background:var(--gold-soft,#f4ecdb);color:var(--fg,#1c2230);font-size:14px;line-height:1.5}
 .stg-note b{font-weight:700}
+.links a.sb{font-weight:700;color:#86662a}
+.nav:not(.solid) .links a.sb{color:#f0d79a}
+@media (max-width:900px){.nav:not(.solid) .links a.sb{color:#86662a}}
+@media (prefers-color-scheme:dark){.links a.sb{color:#e3bd62}}
+.story-card{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;margin-top:28px;padding:16px 20px 16px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-decoration:none;color:inherit;max-width:560px;transition:border-color .2s,transform .2s}
+.story-card:hover{border-color:#c9a45a;transform:translateY(-2px)}
+.story-card img{width:84px;height:64px;object-fit:cover;border-radius:8px}
+.story-card small{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#86662a}
+.story-card b{font-size:20px;line-height:1.2}
+.story-card .go{font-weight:700;color:#86662a;font-size:22px}
+@media (prefers-color-scheme:dark){.story-card small,.story-card .go{color:#e3bd62}}
 </style>
 </head>
 <body>
@@ -309,6 +321,7 @@ footer .top{align-items:center;display:flex;flex-wrap:wrap;justify-content:space
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="links">Menu</button>
     <nav class="links" id="links" aria-label="Site">
       <a href="#about">About</a>
+      <a class="sb" href="https://www.pandey.realty/active-listing/1300-garvin/story">Storybook</a>
       <a href="#video">Video</a>
       <a href="#units">Units</a>
       <a href="#photos">Photos</a>
@@ -367,6 +380,7 @@ footer .top{align-items:center;display:flex;flex-wrap:wrap;justify-content:space
       <p>Outside, the yard is fully fenced, and there's easy freeway access. Both units are vacant, so you can move into one and rent out the other, or set your own rents on both from day one.</p>
     </div>
     <button class="read-btn" id="readBtn" aria-expanded="false" aria-controls="more">Keep reading ↓</button>
+    <a class="story-card" href="https://www.pandey.realty/active-listing/1300-garvin/story"><img src="01.jpg" alt="" loading="lazy"><span><small>New · The story of this home</small><b>Two Front Doors on Garvin</b><span style="display:block;color:var(--muted);font-size:15px">Live in one, rent the other, then walk both units with Nayan.</span></span><span class="go" aria-hidden="true">→</span></a>
   </div>
   <aside class="feat">
     <h3>Highlights</h3>
