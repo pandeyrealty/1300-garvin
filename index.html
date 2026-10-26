@@ -284,6 +284,21 @@ footer .top{align-items:center;display:flex;flex-wrap:wrap;justify-content:space
 .reveal{transition:opacity .7s ease,transform .7s ease}
 .reveal.pre{opacity:0;transform:translateY(18px)}
 @media (min-width:901px) and (max-width:1240px){.links a:not(.btn){padding:8px 7px;font-size:14px}.links .btn{margin-left:4px;padding:8px 14px;font-size:14px}.brand small{display:none}}
+
+/* Virtual staging: Original / AI staged carousel on each staged photo (CA AB 723 labeling) */
+.tile .ph{position:relative}
+.tile.stg{cursor:zoom-in}
+.stg-badge{position:absolute;left:8px;top:8px;background:rgba(15,29,51,.9);color:#fff;font-size:11.5px;font-weight:700;letter-spacing:.01em;padding:4px 9px;border-radius:999px;pointer-events:none}
+.stg-tog{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(15,29,51,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.stg-tog button{font:inherit;font-size:12px;font-weight:600;line-height:1.2;color:#fff;background:transparent;border:0;border-radius:999px;padding:5px 10px;cursor:pointer;white-space:nowrap}
+.stg-tog button[aria-pressed="true"]{background:#fff;color:#0f1d33}
+.stg-cap{background:none;border:0;padding:0 2px;margin:0;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.lb-stage{position:relative}
+.lb .stg-tog{position:static;transform:none;background:rgba(255,255,255,.12)}
+.lb .stg-tog button{font-size:14px;padding:7px 14px}
+.lb-badge{position:absolute;left:50%;top:10px;transform:translateX(-50%);max-width:calc(100% - 24px);background:rgba(15,29,51,.92);color:#fff;font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;pointer-events:none;text-align:center}
+.stg-note{margin:0 0 18px;padding:12px 16px;border-radius:10px;background:var(--gold-soft,#f4ecdb);color:var(--fg,#1c2230);font-size:14px;line-height:1.5}
+.stg-note b{font-weight:700}
 </style>
 </head>
 <body>
@@ -398,6 +413,7 @@ footer .top{align-items:center;display:flex;flex-wrap:wrap;justify-content:space
     <div><p class="eyebrow">Photos</p><h2>Take a look around</h2></div>
     <div class="filters" id="filters" role="group" aria-label="Filter photos"></div>
   </div>
+  <p class="stg-note" id="stgNote" hidden></p>
   <div class="gallery" id="gallery"></div>
 </div></section>
 
@@ -547,10 +563,10 @@ footer .top{align-items:center;display:flex;flex-wrap:wrap;justify-content:space
   <div class="lb-top"><span class="lb-num" id="lbNum"></span><button class="close" id="lbClose">Close</button></div>
   <div class="lb-stage">
     <button class="arr prev" id="lbPrev" aria-label="Previous photo">‹</button>
-    <img id="lbImg" alt="">
+    <img id="lbImg" alt=""><span class="lb-badge" id="lbBadge" hidden>Virtually staged with AI · furniture and decor not included</span>
     <button class="arr next" id="lbNext" aria-label="Next photo">›</button>
   </div>
-  <div class="lb-bot"><span class="lb-cap" id="lbCap"></span></div>
+  <div class="lb-bot"><span class="lb-cap" id="lbCap"></span><span class="stg-tog" id="lbTog" role="group" aria-label="Photo version" hidden><button type="button" data-v="o">Original</button><button type="button" data-v="s">AI staged</button></span></div>
 </div>
 
 <script>
@@ -636,13 +652,31 @@ renderGallery("All");
 
 /* Lightbox */
 const lb=$("lb");let cur=0,lastFocus=null;
-const show=i=>{cur=(i+view.length)%view.length;const p=view[cur];$("lbImg").src=p.src;$("lbImg").alt=p.cap;$("lbCap").innerHTML=`<b>${p.cap}</b><span>${p.sec}</span>`;$("lbNum").textContent=`${cur+1} / ${view.length}`};
+let show=i=>{cur=(i+view.length)%view.length;const p=view[cur];$("lbImg").src=p.src;$("lbImg").alt=p.cap;$("lbCap").innerHTML=`<b>${p.cap}</b><span>${p.sec}</span>`;$("lbNum").textContent=`${cur+1} / ${view.length}`};
 function openLB(i){lastFocus=document.activeElement;show(i);lb.hidden=false;document.body.style.overflow="hidden";$("lbClose").focus()}
 function closeLB(){lb.hidden=true;document.body.style.overflow="";lastFocus&&lastFocus.focus()}
 $("lbClose").onclick=closeLB;$("lbPrev").onclick=()=>show(cur-1);$("lbNext").onclick=()=>show(cur+1);
 lb.addEventListener("click",e=>{if(e.target.classList.contains("lb-stage"))closeLB()});
 document.addEventListener("keydown",e=>{if(lb.hidden)return;if(e.key==="Escape")closeLB();if(e.key==="ArrowRight")show(cur+1);if(e.key==="ArrowLeft")show(cur-1)});
 let tx=null;lb.addEventListener("touchstart",e=>{tx=e.touches[0].clientX},{passive:true});
+
+/* Virtual staging: staged photos get an Original / AI staged carousel, clearly labeled (CA AB 723) */
+const STG=new Set([8,9,10,12,13,14,15,16,17,18,19,20,21,26,27,29,30,31,32,33,34,35,36]),STG_SRC=n=>"staged/"+String(n).padStart(2,"0")+".jpg";let lbMode="o";
+const sx=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function stgDecorate(){[...gal.children].forEach((b,k)=>{const p=view[k];if(!p||!STG.has(p.n))return;
+  const d=document.createElement("div");d.className="tile stg";
+  d.innerHTML=`<span class="ph"><img class="vo" src="${p.src}" alt="${sx(p.cap)}" loading="lazy"><img class="vs" src="${STG_SRC(p.n)}" alt="${sx(p.cap)}, virtually staged with AI" loading="lazy" hidden><span class="stg-badge" hidden>Virtually staged · AI</span><span class="stg-tog" role="group" aria-label="Photo version"><button type="button" data-v="o">Original</button><button type="button" data-v="s">AI staged</button></span></span><button type="button" class="cap stg-cap" aria-label="${sx(p.sec+", "+p.cap+", open photo")}"><b>${sx(p.cap)}</b><i>${sx(p.sec)} · original + AI staged</i></button>`;
+  const set=v=>{d.dataset.v=v;d.querySelector(".vo").hidden=v==="s";d.querySelector(".vs").hidden=v!=="s";d.querySelector(".stg-badge").hidden=v!=="s";d.querySelectorAll(".stg-tog button").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.v===v)))};
+  d.querySelectorAll(".stg-tog button").forEach(x=>x.onclick=e=>{e.stopPropagation();set(x.dataset.v)});
+  const open=()=>{lbMode=d.dataset.v;openLB(k)};const ph=d.querySelector(".ph");ph.onclick=open;d.querySelector(".stg-cap").onclick=open;
+  let t0=null;ph.addEventListener("touchstart",e=>{t0=e.touches[0].clientX},{passive:true});
+  ph.addEventListener("touchend",e=>{if(t0===null)return;const dx=e.changedTouches[0].clientX-t0;t0=null;if(Math.abs(dx)>40){e.preventDefault();set(d.dataset.v==="o"?"s":"o")}});
+  set("o");b.replaceWith(d)})}
+function stgLB(){const p=view[cur],tog=$("lbTog"),bad=$("lbBadge");if(p&&STG.has(p.n)){const s=lbMode==="s";tog.hidden=false;$("lbImg").src=s?STG_SRC(p.n):p.src;$("lbImg").alt=p.cap+(s?", virtually staged with AI":"");bad.hidden=!s;tog.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.v===lbMode)))}else{tog.hidden=true;bad.hidden=true}}
+if(STG.size){$("lbTog").querySelectorAll("button").forEach(x=>x.onclick=()=>{lbMode=x.dataset.v;stgLB()});
+  {const _s=show;show=i=>{_s(i);stgLB()}}
+  {const _rg=renderGallery;renderGallery=c=>{_rg(c);stgDecorate()}}stgDecorate();
+  const nt=$("stgNote");nt.innerHTML=`<b>${STG.size} rooms also have a virtually staged version.</b> Tap <b>AI staged</b> on a photo to see it furnished. The furniture and decor in those versions were added digitally with AI and are not included; the rooms are currently unfurnished. The original, unedited photo is always shown first.`;nt.hidden=false}
 lb.addEventListener("touchend",e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)show(cur+(dx<0?1:-1));tx=null});
 
 /* Mortgage calculator */
