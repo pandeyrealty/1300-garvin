@@ -598,7 +598,7 @@ const $=id=>document.getElementById(id);
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* Video tour: paste a YouTube, Vimeo, or .mp4 link here when it's ready. Leave empty to show "coming soon". */
-const VIDEO_URL="";
+const VIDEO_URL="https://youtu.be/kVLNg-PVoSc";
 (function(){if(!VIDEO_URL)return;const box=$("videoBox");let m;
   if((m=VIDEO_URL.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]{11})/)))box.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${m[1]}?rel=0" title="Video tour of 1300 Garvin Ave" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
   else if((m=VIDEO_URL.match(/vimeo\.com\/(\d+)/)))box.innerHTML=`<iframe src="https://player.vimeo.com/video/${m[1]}" title="Video tour of 1300 Garvin Ave" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>`;
