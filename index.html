@@ -314,6 +314,8 @@ footer .top{align-items:center;display:flex;flex-wrap:wrap;justify-content:space
 .story-card b{font-size:20px;line-height:1.2}
 .story-card .go{font-weight:700;color:#86662a;font-size:22px}
 @media (prefers-color-scheme:dark){.story-card small,.story-card .go{color:#e3bd62}}
+.vtabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.vtabs button{font:inherit;font-weight:600;font-size:.9rem;padding:9px 16px;border-radius:999px;border:1px solid rgba(15,29,51,.18);background:#fff;color:#0f1d33;cursor:pointer}.vtabs button[aria-selected=true]{background:#0f1d33;color:#fff;border-color:#0f1d33}
+.video video{width:100%;height:100%;object-fit:cover;display:block;background:#0f1d33}.vsound{position:absolute;right:14px;bottom:14px;font:inherit;font-size:.82rem;font-weight:600;padding:8px 14px;border-radius:999px;border:0;background:rgba(255,255,255,.92);color:#0f1d33;cursor:pointer}
 </style>
 </head>
 <body>
@@ -403,6 +405,7 @@ footer .top{align-items:center;display:flex;flex-wrap:wrap;justify-content:space
 <section id="video" class="reveal"><div class="wrap">
   <p class="eyebrow">Video tour</p>
   <h2>Walk through with Nayan</h2>
+  <div class="vtabs" id="vTabs" role="tablist"><button role="tab" aria-selected="true">Cinematic tour · 1 min</button><button role="tab" aria-selected="false">Full walkthrough with Nayan</button></div>
   <div class="video" id="videoBox">
     <img class="poster" src="24.jpg" alt="">
     <div class="soon"><div class="play" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div><b>Video tour coming soon</b><span>Want a live walkthrough now? <a href="#contact" style="color:#fff">Schedule a showing</a>.</span></div>
@@ -603,7 +606,14 @@ const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* Video tour: paste a YouTube, Vimeo, or .mp4 link here when it's ready. Leave empty to show "coming soon". */
 const VIDEO_URL="https://youtu.be/kVLNg-PVoSc";
-(function(){if(!VIDEO_URL)return;const box=$("videoBox");let m;
+(function(){const box=$("videoBox"),b=document.querySelectorAll("#vTabs button");
+  const tour=()=>{box.style.aspectRatio="16/9";box.innerHTML=`<video src="media/tour.mp4" poster="media/tour.jpg" muted loop playsinline preload="none" aria-label="Cinematic photo tour"></video><button class="vsound" type="button">Tap for full screen</button>`;
+    const v=box.querySelector("video");box.querySelector(".vsound").onclick=()=>{(v.requestFullscreen||v.webkitEnterFullscreen||(()=>{})).call(v);v.play()};
+    new IntersectionObserver(([e])=>{e.isIntersecting?v.play().catch(()=>{}):v.pause()},{threshold:.35}).observe(v)};
+  const m=VIDEO_URL.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]{11})/);
+  const full=()=>{box.style.aspectRatio="";box.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${m[1]}?rel=0&autoplay=1" title="Video tour of 1300 Garvin Ave" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`};
+  b.forEach((x,i)=>x.onclick=()=>{b.forEach(y=>y.setAttribute("aria-selected",y===x));i?full():tour()});tour();})();
+(function(){return;const box=$("videoBox");let m;
   if((m=VIDEO_URL.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]{11})/)))box.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${m[1]}?rel=0" title="Video tour of 1300 Garvin Ave" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
   else if((m=VIDEO_URL.match(/vimeo\.com\/(\d+)/)))box.innerHTML=`<iframe src="https://player.vimeo.com/video/${m[1]}" title="Video tour of 1300 Garvin Ave" allow="fullscreen; picture-in-picture" allowfullscreen></iframe>`;
   else if(/\.(mp4|webm|mov)(\?|$)/i.test(VIDEO_URL))box.innerHTML=`<video src="${VIDEO_URL}" controls playsinline preload="metadata" poster="24.jpg"></video>`;
