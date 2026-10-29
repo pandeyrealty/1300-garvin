@@ -607,8 +607,8 @@ const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 /* Video tour: paste a YouTube, Vimeo, or .mp4 link here when it's ready. Leave empty to show "coming soon". */
 const VIDEO_URL="https://youtu.be/kVLNg-PVoSc";
 (function(){const box=$("videoBox"),b=document.querySelectorAll("#vTabs button");
-  const tour=()=>{box.style.aspectRatio="16/9";box.innerHTML=`<video src="media/tour.mp4" poster="media/tour.jpg" muted loop playsinline preload="none" aria-label="Cinematic photo tour"></video><button class="vsound" type="button">Tap for full screen</button>`;
-    const v=box.querySelector("video");box.querySelector(".vsound").onclick=()=>{(v.requestFullscreen||v.webkitEnterFullscreen||(()=>{})).call(v);v.play()};
+  const tour=()=>{box.style.aspectRatio="16/9";box.innerHTML=`<video src="media/tour.mp4" poster="media/tour.jpg" muted loop playsinline preload="none" aria-label="Cinematic photo tour"></video><button class="vsound" type="button" aria-pressed="false">🔊 Tap for sound</button>`;
+    const v=box.querySelector("video");const sb=box.querySelector(".vsound");sb.onclick=()=>{v.muted=!v.muted;if(!v.muted){v.currentTime=0;v.play()}sb.textContent=v.muted?"🔊 Tap for sound":"🔇 Mute";sb.setAttribute("aria-pressed",!v.muted)};v.onclick=()=>(v.requestFullscreen||v.webkitEnterFullscreen||(()=>{})).call(v);
     new IntersectionObserver(([e])=>{e.isIntersecting?v.play().catch(()=>{}):v.pause()},{threshold:.35}).observe(v)};
   const m=VIDEO_URL.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]{11})/);
   const full=()=>{box.style.aspectRatio="";box.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${m[1]}?rel=0&autoplay=1" title="Video tour of 1300 Garvin Ave" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`};
