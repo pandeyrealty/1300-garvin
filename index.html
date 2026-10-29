@@ -103,6 +103,9 @@ section{padding-block:80px 0}
 .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(46px,9vw,116px);line-height:.9;letter-spacing:-.035em;margin:0;text-wrap:balance}
 .hero .city{font-family:var(--display);font-size:clamp(18px,2.6vw,26px);margin:14px 0 0;opacity:.95}
 .hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin-top:24px}
+.ohbar{display:inline-flex;align-items:center;gap:10px;background:#c9a45a;color:#0f1d33;font-weight:800;font-size:15px;letter-spacing:.02em;padding:9px 16px;border-radius:999px;text-decoration:none;margin:0 0 16px}
+.ohbar::before{content:"";width:9px;height:9px;border-radius:9px;background:#0f1d33;animation:ohp 1.6s infinite}
+@keyframes ohp{50%{opacity:.25}}
 .badge{font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;background:#fff;color:#17212a;padding:6px 12px;border-radius:4px}
 .price{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,46px);letter-spacing:-.02em;line-height:1}
 .hero-ctl{position:absolute;z-index:3;right:max(20px,env(safe-area-inset-right,0px));bottom:max(48px,env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:10px}
@@ -337,6 +340,7 @@ footer .top{align-items:center;display:flex;flex-wrap:wrap;justify-content:space
   <div id="slides"></div>
   <span class="slide-cap" id="slideCap"></span>
   <div class="hero-copy"><div class="wrap">
+    <a class="ohbar" href="#contact" data-ends="2026-11-01T16:00:00-08:00">Open house Sat Oct 31 &amp; Sun Nov 1 · 12–4 PM</a>
     <p class="kicker">Vacant duplex · Belding Woods · Richmond, CA</p>
     <h1>1300 Garvin Avenue</h1>
     <p class="city">Richmond, California 94801</p>
@@ -747,5 +751,6 @@ if("IntersectionObserver" in window&&!reduce){
 }
 })();
 </script>
+<script>document.querySelectorAll("[data-ends]").forEach(e=>{const t=Date.parse(e.dataset.ends);if(t&&Date.now()>t)e.hidden=true});</script>
 </body>
 </html>
